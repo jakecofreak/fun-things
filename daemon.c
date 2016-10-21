@@ -18,7 +18,7 @@ if (pid < 0) {
    exit(EXIT_FAILURE);
 }
 /* If we got a good PID, then we can exit the parent process. */
-else {
+if (pid >0) {
    exit(EXIT_SUCCESS);
 }
 
