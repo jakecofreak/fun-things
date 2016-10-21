@@ -18,7 +18,7 @@ if (pid < 0) {
    exit(EXIT_FAILURE);
 }
 /* If we got a good PID, then we can exit the parent process. */
-if (pid >0) {
+if (pid > 0) {
    exit(EXIT_SUCCESS);
 }
 
@@ -26,18 +26,18 @@ if (pid >0) {
 umask(0);
 
 /* Open logs here*/
-openlog("daemon.test", LOG_CONS|LOG_NDELAY|LOG_PID, LOG_LOCAL4);
+openlog("/var/log/daemon.test", LOG_CONS|LOG_NDELAY|LOG_PID, LOG_LOCAL0);
 
 /* Create a new SID for the child process */
 sid = setsid();
 if (sid < 0) {
-   syslog(LOG_ERR, "%s", "SID not created. Exiting process.");
+   syslog(LOG_ERR|LOG_LOCAL0, "%s", "SID not created. Exiting process.");
    exit(EXIT_FAILURE);
 }
 
 /* Change the current working directory */
 if (chdir("/") < 0) {
-   syslog(LOG_ERR, "%s", "/ directory does not exist. Exiting process.");
+   syslog(LOG_ERR|LOG_LOCAL0, "%s", "/ directory does not exist. Exiting process.");
    exit(EXIT_FAILURE);
 }
 
@@ -49,8 +49,8 @@ close(STDERR_FILENO);
 /* Daemon Loop */
 while (1) {
    /* Perform task */
-   syslog(LOG_INFO, "%s", "Daemon is running and writing logs.");
-   sleep(30);
+   syslog(LOG_INFO|LOG_LOCAL0, "%s", "Daemon is running and writing logs.");
+   sleep(60);
 }
 exit(EXIT_SUCCESS);
 }
